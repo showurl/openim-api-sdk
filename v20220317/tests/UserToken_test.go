@@ -17,8 +17,8 @@ func TestUserToken(t *testing.T)  {
 	t.Setenv("DefaultUserSecret", `tuoyun`)
 	resp, err := v20220317.UserToken(&apiStruct.ReqUserToken{
 		Secret:      `tuoyun`,
-		Platform:    apiStruct.IOSPlatformID,
-		UserID:      "abcdefghi1234567890",
+		Platform:    apiStruct.AdminPlatformID,
+		UserID:      "openIM123456",
 		OperationID: v20220317.NewOperationID(),
 	})
 	if err != nil {

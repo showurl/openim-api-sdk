@@ -23,3 +23,11 @@ func GetToken(userid, secret string) (string, error) {
 	tokenMgr[userid] = resp.Token
 	return resp.Token, nil
 }
+
+func delToken(id string) {
+	delete(tokenMgr, id)
+}
+
+func SetToken(id string, token string) {
+	tokenMgr[id] = token
+}

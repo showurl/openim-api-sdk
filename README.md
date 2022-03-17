@@ -31,3 +31,4 @@ openim-api GO版本sdk
 |UrlPrefix|openim api服务的host|http://127.0.0.1:10000|
 |DefaultUserID|openim 默认admin账号 当option不传时 则使用该账号|openIM123456|
 |DefaultUserSecret|config.yaml中的secret|tuoyun|
+|LogLevel|从debug,info,error,none中选一个|debug|

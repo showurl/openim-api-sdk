@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/showurl/openim-api-sdk/log"
 	"github.com/showurl/openim-api-sdk/v20220317/conf"
 	"io/ioutil"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 )
 
 var HttpClient *httpClient
+var StatusCodeErr = fmt.Errorf("resp.StatusCode != 200")
 
 type httpClient struct {
 	UrlPrefix string
@@ -33,7 +35,7 @@ func (c *httpClient) postLogic(path string, data interface{}, token string) (con
 	if err != nil {
 		return nil, err
 	}
-
+	log.Debugf("请求体：%s", string(jsonStr))
 	req, err := http.NewRequest("POST", c.UrlPrefix+path, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		return nil, err
@@ -48,13 +50,14 @@ func (c *httpClient) postLogic(path string, data interface{}, token string) (con
 		return nil, err
 	}
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("resp.StatusCode = %d", resp.StatusCode)
+		log.Errorf("请求失败：resp.StatusCode = %d", resp.StatusCode)
+		return nil, StatusCodeErr
 	}
 	defer resp.Body.Close()
 	result, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-	//	fmt.Println(path, "Marshal data: ", string(jsonStr), string(result))
+	log.Debugf("响应体：%s", string(result))
 	return result, nil
 }
